@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-func runOrchestrator(host string, port int16) {
+func runOrchestrator(host string, port int16, useCheckpoint bool) {
 	/*
 		Starts orchestrator service.
 	*/
