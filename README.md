@@ -64,7 +64,7 @@ A typical workflow would look like the following
     - orchestrator responds to GET, PUT, DELETE API calls
 - When a different node joins
     - Alongside registration, orchestrator relocates some KV pairs from different nodes to this new node.
-- When a node leaves
+- When a node leaves, it sends a request to `/deregister` in orchestrator
     - Orchestrator distributes this nodes' KVs to other nodes.
 
 
