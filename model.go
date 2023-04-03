@@ -50,9 +50,7 @@ func shuffleKeysToNewNode(node *WorkerNode) {
 	// WARN: Optimize how to pick keys to reshuffle
 	// Following code linearly iterates and moves keys until max is reached for new node
 	relocationCounts := map[string]int{}
-	fmt.Println(keyDirectory, node)
 	for key, nodeIds := range keyDirectory {
-		fmt.Println(key, nodeIds)
 		// WARN: error is ignored
 		nodeOld, _ := getWorkerWithId(nodeIds[0])
 		nodeRelocationCount := relocationCounts[nodeOld.Id]

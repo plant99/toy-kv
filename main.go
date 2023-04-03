@@ -31,7 +31,8 @@ func main() {
 		// GET, SET, DELETE
 		// key, value
 		if *cmdAction == CMD_ACTION_START {
-			runWorker("0.0.0.0", int16(*port), *serverURL)
+			// not implemented
+			fmt.Println("Not implemented.")
 		}
 	} else {
 		// print help string
