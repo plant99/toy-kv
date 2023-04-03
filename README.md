@@ -7,13 +7,13 @@ Toy KV store: distributed and in-memory.
 # clone the repository
  go build  -o ./tkv
 
- # starting orchestrator server
- ./tkv -type orch  -action start -port 8080
+# starting orchestrator server
+./tkv -type orch  -action start -port 8080
 
- # starting worker nodes
- ./tkv -type worker -action start -port 8081 -serverURL "http://localhost:8080"
- ./tkv -type worker -action start -port 8083 -serverURL "http://localhost:8080"
- ./tkv -type worker -action start -port 8082 -serverURL "http://localhost:8080"
+# starting worker nodes
+./tkv -type worker -action start -port 8081 -serverURL "http://localhost:8080"
+./tkv -type worker -action start -port 8083 -serverURL "http://localhost:8080"
+./tkv -type worker -action start -port 8082 -serverURL "http://localhost:8080"
 ```
 
 One can also build the docker image with `docker build . -t tkv` and use it as a CLI. I.e, the command to start orchestrator server becomes
