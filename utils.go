@@ -19,3 +19,25 @@ const REQUEST_DELETE = "DELETE"
 func generateUUID() string {
 	return uuid.New().String()
 }
+
+func stringInSlice(a string, list []string) bool {
+	for _, b := range list {
+		if b == a {
+			return true
+		}
+	}
+	return false
+}
+
+func removeFromSliceOfStrings(slice []string, s int) []string {
+	return append(slice[:s], slice[s+1:]...)
+}
+
+func indexOfString(a string, list []string) int {
+	for i, b := range list {
+		if b == a {
+			return i
+		}
+	}
+	return -1
+}

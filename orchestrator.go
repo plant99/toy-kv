@@ -95,10 +95,14 @@ func handleRegister(writer http.ResponseWriter, request *http.Request) {
 	}
 	nodes = append(nodes, workerNode)
 
-	// TODO-D: Assign existing keys to new node to balance things
 	writer.Header().Set("Content-Type", "application/json")
 	writer.WriteHeader(http.StatusOK)
 	json.NewEncoder(writer).Encode(WorkerRegistrationResponse{WorkerId: workerNode.Id})
+
+	workerNode = nodes[len(nodes)-1]
+
+	// Ignore errors from shuffling, since load gets readjusted as new keys come in
+	shuffleKeysToNewNode(&workerNode)
 }
 
 func handleDeregister(writer http.ResponseWriter, request *http.Request) {
@@ -112,7 +116,7 @@ func handleDeregister(writer http.ResponseWriter, request *http.Request) {
 	}
 	// delete node from nodes with id=workerId
 
-	// TODO-D: Assign existing keys to new node to balance things
+	shuffleKeysFromOldNode(workerId)
 }
 
 func handlePut(writer http.ResponseWriter, request *http.Request) {
@@ -137,6 +141,7 @@ func handlePut(writer http.ResponseWriter, request *http.Request) {
 		writer.Header().Set("Content-Type", "application/json")
 		writer.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(writer).Encode(map[string]string{"error": err.Error()})
+		return
 	}
 
 	keyDirectory[Key(key)] = make(NodeIds, 0)
@@ -159,7 +164,6 @@ func handlePut(writer http.ResponseWriter, request *http.Request) {
 }
 
 func handleGet(writer http.ResponseWriter, request *http.Request) {
-	fmt.Println(keyDirectory)
 	key := request.URL.Query().Get("key")
 	if key == "" {
 		writer.Header().Set("Content-Type", "application/json")
@@ -180,6 +184,7 @@ func handleGet(writer http.ResponseWriter, request *http.Request) {
 		writer.Header().Set("Content-Type", "application/json")
 		writer.WriteHeader(http.StatusNotFound)
 		json.NewEncoder(writer).Encode(map[string]string{"error": "key not found"})
+		return
 	}
 	for _, nodeId := range nodeIdsForKey {
 		node, err := getWorkerWithId(nodeId)

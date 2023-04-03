@@ -28,7 +28,6 @@ func registerWorkerNode(serverUrl string, workerUrl string) error {
 		return err
 	}
 	if res.StatusCode != http.StatusOK {
-		fmt.Println(res)
 		return errors.New("failed to register worker")
 	}
 	resBody, err := ioutil.ReadAll(res.Body)
